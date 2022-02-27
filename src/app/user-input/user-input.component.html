@@ -1,8 +1,11 @@
-<form #recipeForm="ngForm">
+<form >
   <div class="form-group">
     <div class="form-group col-lg-6 col-lg-offset-3 input-group">
-      <input [(ngModel)]="playlist" name="user-playlist"  class="form-control" placeholder="Recipe name:" type="text">
-      <span class="input-group-addon">-</span>
+
+      <input  name="query-playlist"  class="form-control" placeholder="Playlist URL:" type="text">
+      <input  name="query-song"  class="form-control" placeholder="Song URL:" type="text">
+
+      <span class="input-group-addon"></span>
 
 
     </div>
