@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistTrackComponent } from './playlist/playlist-track/playlist-track.component';
 import { UserInputComponent } from './user-input/user-input.component';
+import { DetailsComponent } from './details/details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlaylistComponent,
     PlaylistTrackComponent,
-    UserInputComponent
+    UserInputComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule
