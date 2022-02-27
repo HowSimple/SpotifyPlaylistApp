@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-input.component.css']
 })
 export class UserInputComponent implements OnInit {
+  playlist: any;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  spotifyPlaylistQuery() {
+
+  }
 }

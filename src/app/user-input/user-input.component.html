@@ -1,1 +1,12 @@
-<p>user-input works!</p>
+<form #recipeForm="ngForm">
+  <div class="form-group">
+    <div class="form-group col-lg-6 col-lg-offset-3 input-group">
+      <input [(ngModel)]="playlist" name="user-playlist"  class="form-control" placeholder="Recipe name:" type="text">
+      <span class="input-group-addon">-</span>
+
+
+    </div>
+    <br>
+    <button (click)="spotifyPlaylistQuery()" type="submit" class="btn btn primary col-lg-2 col-lg-offset-5 " >Go</button>
+  </div>
+</form>

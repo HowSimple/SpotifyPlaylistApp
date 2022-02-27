@@ -6,6 +6,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistTrackComponent } from './playlist/playlist-track/playlist-track.component';
 import { UserInputComponent } from './user-input/user-input.component';
 import { DetailsComponent } from './details/details.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,9 +16,10 @@ import { DetailsComponent } from './details/details.component';
     UserInputComponent,
     DetailsComponent
   ],
-  imports: [
-    BrowserModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
