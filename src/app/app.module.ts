@@ -7,6 +7,7 @@ import { PlaylistTrackComponent } from './playlist/playlist-track/playlist-track
 import { UserInputComponent } from './user-input/user-input.component';
 import { DetailsComponent } from './details/details.component';
 import {FormsModule} from "@angular/forms";
+import { BodyComponent } from './body/body.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {FormsModule} from "@angular/forms";
     PlaylistComponent,
     PlaylistTrackComponent,
     UserInputComponent,
-    DetailsComponent
+    DetailsComponent,
+    BodyComponent
   ],
     imports: [
         BrowserModule,
