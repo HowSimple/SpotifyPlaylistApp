@@ -1,0 +1,14 @@
+input {
+  display: block;
+  margin: 50px auto;
+  width: 500px;
+  height: 50px;
+  font-size: 18px;
+  color: gray;
+  border: none;
+  text-indent: 3.5em;
+  border-radius: 30px;
+  background: url("images/search.png") no-repeat rgba(0,0,0, .3);
+  background-color: white;
+  outline: none;
+}
