@@ -1,0 +1,8 @@
+<p>show-playlist works!</p>
+<button (click)="toggleVisibility()">Expand songs</button>
+<div *ngIf="isHidden">
+
+  <div class="ingredient-show" *ngFor="let song of song_list" class="list-group-item clearfix ingredient">{{ song}}</div>
+
+
+</div>
