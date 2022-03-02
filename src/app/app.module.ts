@@ -7,11 +7,12 @@ import { DetailsComponent } from './details/details.component';
 import {FormsModule} from "@angular/forms";
 import { BodyComponent } from './body/body.component';
 import { ShowPlaylistComponent } from './show-playlist/show-playlist.component';
+import {PlaylistServiceComponent} from "./playlist-service/playlist-service.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-
+    PlaylistServiceComponent,
     UserInputComponent,
     DetailsComponent,
     BodyComponent,

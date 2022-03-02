@@ -7,12 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserInputComponent implements OnInit {
   playlist: any;
+  prompt: string;
+  //header: string;
+  constructor() {
 
-  constructor() { }
+    //this.header = "Genre to search for"
+    this.prompt = ""
+  }
 
   ngOnInit(): void {
   }
+  updatePrompt() {
 
+  }
   spotifyPlaylistQuery() {
 
   }

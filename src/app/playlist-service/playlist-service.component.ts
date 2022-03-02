@@ -8,16 +8,22 @@ import {mock_getPlaylistSongs} from "../mock";
 })
 export class PlaylistServiceComponent implements OnInit {
 
-
-  mock_songs = mock_getPlaylistSongs()
-
-
+  // prompt: string;
+  // header: string;
+  
   constructor() {
-    mock_getPlaylistSongs()
+   // this.header = "Search your playlist"
+    //this.prompt = "Enter your playlist"
 
-    this.getPlaylistSongs("10b4AJidmIHekntNpPo3R1")}
+    this.songs = [{name:'Name1',artist:'Artist1'},
+      {name:'Name2',artist:'Artist2'},{name:'Name3',artist:'Artist3'}]
 
+    //mock_getPlaylistSongs()
+
+    //this.getPlaylistSongs("10b4AJidmIHekntNpPo3R1")}
+  }
   ngOnInit(): void {
+
   }
 
 
