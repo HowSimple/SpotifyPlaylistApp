@@ -3,6 +3,7 @@ import {mock_getPlaylistSongs} from "../mock";
 import {SpotifyService} from "../spotify.service";
 import {async} from "@angular/core/testing";
 import {spotifyService} from "../spotify-service";
+import {Song} from "../playlist-service/playlist-service.component";
 
 @Component({
   selector: 'app-show-playlist',
@@ -11,9 +12,9 @@ import {spotifyService} from "../spotify-service";
 })
 
 export class ShowPlaylistComponent implements OnInit {
-  @Input()  response:any;
+  //@Input()  response:any;
 
-  songs: Song[];
+  @Input() songs: Song[];
   private _spotify:SpotifyService;
   isHidden:boolean = false;
   constructor(private spotify: SpotifyService) {
@@ -87,10 +88,5 @@ export class ShowPlaylistComponent implements OnInit {
 
 
   }
-
-}
-interface Song {
-  name:string;
-  artist:string;
 
 }

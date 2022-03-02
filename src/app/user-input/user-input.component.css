@@ -1,14 +1,15 @@
 #form {
   margin: 0;
   padding: 0;
-
+  background-color: lightgrey;
+  padding-top: 20px;
 }
 
 input {
   display: block;
 
   font-size: 18px;
-  color: gray;
+  color: black;
   border: none;
   text-indent: 1em;
   border-radius: 30px;

@@ -1,11 +1,19 @@
 
-.title {
-  padding-top: 50px;
+
+h1 {
+  color: white
+}
+#header {
+  background-color: darkslategrey;
   font-size: 32px;
   text-align: center;
   color: white;
 }
 
-#main {
+#footer {
   background-color: darkslategrey;
+  font-size: 32px;
+  text-align: center;
+  color: white;
 }
+
