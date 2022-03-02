@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { UserInputComponent } from './user-input/user-input.component';
-import { DetailsComponent } from './details/details.component';
 import {FormsModule} from "@angular/forms";
 import { BodyComponent } from './body/body.component';
 import { ShowPlaylistComponent } from './show-playlist/show-playlist.component';
@@ -14,7 +13,7 @@ import {PlaylistServiceComponent} from "./playlist-service/playlist-service.comp
     AppComponent,
     PlaylistServiceComponent,
     UserInputComponent,
-    DetailsComponent,
+
     BodyComponent,
 
     ShowPlaylistComponent
