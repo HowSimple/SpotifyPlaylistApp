@@ -17,3 +17,6 @@ input {
   background-color: white;
   outline: none;
 }
+#body{
+  min-height: 100%
+}
