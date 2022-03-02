@@ -3,20 +3,23 @@ import {mock_getPlaylistSongs} from "../mock";
 import {SpotifyService} from "../spotify.service";
 import {async} from "@angular/core/testing";
 import {spotifyService} from "../spotify-service";
+
 @Component({
   selector: 'app-show-playlist',
   templateUrl: './show-playlist.component.html',
   styleUrls: ['./show-playlist.component.css']
 })
+
 export class ShowPlaylistComponent implements OnInit {
   @Input()  response:any;
 
-  tracks = [];
+  songs: Song[];
   private _spotify:SpotifyService;
   isHidden:boolean = false;
   constructor(private spotify: SpotifyService) {
     this._spotify = spotify;
-
+    this.songs = [{name:'Name1',artist:'Artist1'},
+      {name:'Name2',artist:'Artist2'},{name:'Name3',artist:'Artist3'}]
     //spotify.getPlaylistSongs()
     //this.song_list.push(mock_getPlaylistSongs());
     //this.getPlaylistSongs('10b4AJidmIHekntNpPo3R1')
@@ -54,7 +57,7 @@ export class ShowPlaylistComponent implements OnInit {
           (data) => {
             console.log(data)
             //this.songs = data.tracks
-            this.tracks.push.apply(this.tracks, data.songs)
+            //this.songs.push.apply(this.songs, data.songs)
 
 
             //dat = data;
@@ -84,5 +87,10 @@ export class ShowPlaylistComponent implements OnInit {
 
 
   }
+
+}
+interface Song {
+  name:string;
+  artist:string;
 
 }

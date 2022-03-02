@@ -1,11 +1,11 @@
 <p>show-playlist works!</p>
 <button (click)="toggleVisibility()">Expand songs</button>
 <button (click)="querySpotifyApi('playlists/10b4AJidmIHekntNpPo3R1')">Test</button>
-<div *ngIf="tracks.length>0">
+<div *ngIf="songs.length>0">
   test
-  <div>{{tracks[0]}}</div>
+  <div>{{songs[0]}}</div>
 
-  <div *ngFor="let song of tracks">
+  <div *ngFor="let song of songs">
     <div>Song Title:{{song}}</div>
   </div>
 
