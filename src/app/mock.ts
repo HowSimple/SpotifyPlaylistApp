@@ -1,4 +1,7 @@
+
 export function mock_getPlaylistSongs(){
+
+
   var mock_response = "{\n" +
     "  \"items\": [\n" +
     "    {\n" +
@@ -133,8 +136,8 @@ export function mock_getPlaylistSongs(){
     "    }\n" +
     "  ]\n" +
     "}"
-  mock_response = JSON.stringify(mock_response)
-  console.log(mock_response)
+  //mock_response = JSON.stringify(mock_response)
+  //console.log(mock_response)
   var parsed = JSON.parse(mock_response)
   console.log(parsed)
 
