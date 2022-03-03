@@ -10,11 +10,15 @@ export class PlaylistServiceComponent implements OnInit {
 
   // prompt: string;
   // header: string;
+
   playlist_songs: Song[]
+  playlist_url:string;
+  genre:string;
   constructor() {
    // this.header = "Search your playlist"
     //this.prompt = "Enter your playlist"
-
+    this.playlist_url = ""
+    this.genre =""
     this.playlist_songs = [{name:'Name1',artist:'Artist1'},
       {name:'Name2',artist:'Artist2'},{name:'Name3',artist:'Artist3'}]
 

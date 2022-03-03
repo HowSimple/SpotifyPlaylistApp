@@ -3,9 +3,12 @@
   <div class="row">
     <div class="col">
     </div>
-    <app-user-input></app-user-input>
+    <app-user-input (submitPlaylistEvent)="playlist_url =$event" (submitGenreEvent)="genre"></app-user-input>
+    <div>{{playlist_url}}</div>
+    <div *ngIf="playlist_url!=''">
+      <app-show-playlist> </app-show-playlist>
 
-    <app-show-playlist> </app-show-playlist>
+    </div>
 
 
   </div>

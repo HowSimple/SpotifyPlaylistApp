@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+
 
 @Component({
   selector: 'app-user-input',
@@ -6,15 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-input.component.css']
 })
 export class UserInputComponent implements OnInit {
-  playlist: any;
+  playlist: string = "";
+  genre: string = "";
   prompt: string;
+  @Output() submitPlaylistEvent = new EventEmitter<string>();
+  @Output() submitGenreEvent = new EventEmitter<string>();
   //header: string;
   constructor() {
 
     //this.header = "Genre to search for"
     this.prompt = ""
   }
+  onSubmit(){
 
+  }
   ngOnInit(): void {
   }
   updatePrompt() {
@@ -22,5 +28,10 @@ export class UserInputComponent implements OnInit {
   }
   spotifyPlaylistQuery() {
 
+  }
+
+  SubmitQuery(playlist: string, genre: string) {
+    this.submitPlaylistEvent.emit(playlist)
+    this.submitGenreEvent.emit(genre)
   }
 }
