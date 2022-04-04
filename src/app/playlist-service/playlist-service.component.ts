@@ -10,7 +10,8 @@ export class PlaylistServiceComponent implements OnInit {
 
   // prompt: string;
   // header: string;
-
+  clientId:string;
+  redirectAfterAuth:string;
   playlist_songs: Song[]
   playlist_url:string;
   genre:string;
@@ -19,6 +20,9 @@ export class PlaylistServiceComponent implements OnInit {
     //this.prompt = "Enter your playlist"
     this.playlist_url = ""
     this.genre =""
+    this.redirectAfterAuth ='';
+    this.clientId = 'da3e944b84d94983be9887955b701b31';
+
     this.playlist_songs = [{name:'Name1',artist:'Artist1'},
       {name:'Name2',artist:'Artist2'},{name:'Name3',artist:'Artist3'}]
 
@@ -28,6 +32,22 @@ export class PlaylistServiceComponent implements OnInit {
   }
   ngOnInit(): void {
 
+  }
+  login(){
+    var spotifyAuthRequest = "https://accounts.spotify.com/authorize?"
+    const options = {method: 'CODE'};
+
+    fetch(spotifyAuthRequest, options)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        //this.recipeList.push.apply(this.recipeList, response.hits);
+      })
+      .catch(err => console.error(err));
+
+
+
+    document.location.href = '';
   }
 
 

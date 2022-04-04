@@ -1,16 +1,16 @@
 var createError = require('http-errors');
 var express = require('express');
+var app = express();
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const querystring = require('querystring');
-
-
-
 var indexRouter = require('./routes/index');
+// for Spotify API authorization
 var client_id = 'da3e944b84d94983be9887955b701b31';
 var redirect_uri = 'http://localhost:3000/redirect';
-var app = express();
+
 const generateRandomString = (myLength) => {
   const chars =
       "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
@@ -34,6 +34,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.get('/redirect/', async function(req, res) {
+  console.log(req.query)
+  //res.render('index', { title: 'Express token:'+req.query.code });
+    res.json(req.query.code)
+});
+
 app.get('/login', function(req, res) {
 
   var state = generateRandomString(16);
