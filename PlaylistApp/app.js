@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 // for Spotify API authorization
 var client_id = 'da3e944b84d94983be9887955b701b31';
 var redirect_uri = 'http://localhost:3000/redirect';
+var auth_token;
 
 const generateRandomString = (myLength) => {
   const chars =
@@ -34,10 +35,28 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+/*app.use(function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+});*/
 app.get('/redirect/', async function(req, res) {
   console.log(req.query)
+  auth_token = req.query.code
   //res.render('index', { title: 'Express token:'+req.query.code });
     res.json(req.query.code)
+});
+app.get('/token/',  function(req, res) {
+
+  //res.render('index', { title: 'Express token:'+req.query.code });
+  // console.log("test")
+  //res.json(auth_token)
+  //res.json(["test"])
+  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "*");
+
+  res.json(["test"])
 });
 
 app.get('/login', function(req, res) {
