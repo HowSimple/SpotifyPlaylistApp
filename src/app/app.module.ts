@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router'
 import { AppComponent } from './app.component';
 import { UserInputComponent } from './user-input/user-input.component';
 import {FormsModule} from "@angular/forms";
 import { BodyComponent } from './body/body.component';
 import { ShowPlaylistComponent } from './show-playlist/show-playlist.component';
 import {PlaylistServiceComponent} from "./playlist-service/playlist-service.component";
+import { AuthorizationRequestComponent } from './authorization-request/authorization-request.component';
+import {spotifyService} from "./spotify-service";
+import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -16,13 +19,21 @@ import {PlaylistServiceComponent} from "./playlist-service/playlist-service.comp
 
     BodyComponent,
 
-    ShowPlaylistComponent
+    ShowPlaylistComponent,
+      AuthorizationRequestComponent
   ],
     imports: [
         BrowserModule,
-        FormsModule
+        FormsModule,
+        HttpClientModule,
+      RouterModule.forRoot([
+        {path: 'redirect', component:AuthorizationRequestComponent},
+
+        {path: 'app', component:BodyComponent},
+        {path: '', redirectTo: 'app', pathMatch :'full'}
+      ])
     ],
-  providers: [],
+  providers: [spotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

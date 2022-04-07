@@ -4,6 +4,7 @@
     <div class="col">
     </div>
     <button (click)="login()" >Login</button>
+    <button (click)="getPlaylistSongs('3MBz0XGauQW6cFj9Ze9tAK')" >Login</button>
     <app-user-input (submitPlaylistEvent)="playlist_url =$event" (submitGenreEvent)="genre"></app-user-input>
     <div>{{playlist_url}}</div>
     <div *ngIf="playlist_url!=''">
