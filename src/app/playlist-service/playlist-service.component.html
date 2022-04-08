@@ -3,15 +3,16 @@
   <div class="row">
     <div class="col">
     </div>
-    <button (click)="login()" >Login</button>
-    <button (click)="getPlaylistSongs('3MBz0XGauQW6cFj9Ze9tAK')" >Login</button>
-    <app-user-input (submitPlaylistEvent)="playlist_url =$event" (submitGenreEvent)="genre"></app-user-input>
+    <button (click)="searchPlaylistByGenre('3MBz0XGauQW6cFj9Ze9tAK','indie')" >Login</button>
+    <button (click)="getPlaylistSongs('3MBz0XGauQW6cFj9Ze9tAK')" >Playlist</button>
+    <app-user-input (submitPlaylistEvent)="playlist_url =$event" (submitGenreEvent)="genre=$event"></app-user-input>
     <div>{{playlist_url}}</div>
-    <div *ngIf="playlist_url!=''">
-      <app-show-playlist> </app-show-playlist>
+    <app-show-playlist [songs]="playlist_songs"> </app-show-playlist>
+
+    <!--<div *ngIf="playlist_url!=''">
 
     </div>
-
+-->
 
   </div>
 

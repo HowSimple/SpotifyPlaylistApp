@@ -1,7 +1,7 @@
 import{Injectable} from "@angular/core";
 import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {map } from "rxjs/operators";
-import axios from "axios";
+
 
 @Injectable()
 export class spotifyService{

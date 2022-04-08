@@ -88,13 +88,45 @@ export class PlaylistServiceComponent implements OnInit {
   }
   getPlaylistSongs(playlistID: string){
 
-    this.querySpotifyApi(`/playlists/${playlistID}`)
+    //this.querySpotifyApi(`/playlists/${playlistID}`)
+    var request = `http://localhost:3000/playlist?id=${playlistID}`;
+    const options = {method: 'GET', headers: {},
+        Accept: 'application/json'};
+
+    fetch(request, options)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        this.playlist_songs = response;
+        // this.recipeList.push.apply(this.recipeList, response.hits);
+      })
+      .catch(err => console.error(err));
+
+
+
+  }
+  searchPlaylistByGenre(playlistID: string, genre:string){
+
+    //this.querySpotifyApi(`/playlists/${playlistID}`)
+    var request = `http://localhost:3000/searchByGenre?id=${playlistID}&genre=${genre}`;
+    const options = {method: 'GET', headers: {},
+      Accept: 'application/json'};
+
+    fetch(request, options)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        this.playlist_songs = response;
+        // this.recipeList.push.apply(this.recipeList, response.hits);
+      })
+      .catch(err => console.error(err));
+
 
 
   }
   querySpotifyApi(query:string){
 
-    var request = `https://api.spotify.com/v1/${query}&app_id=7d5182c5&app_key=a0fa0e82fa892fcae09dd4af3f6a2993`;
+    /*var request = `https://api.spotify.com/v1/${query}&app_id=7d5182c5&app_key=a0fa0e82fa892fcae09dd4af3f6a2993`;
     const options = {method: 'GET', headers: {Authorization: 'Bearer:BQCXtU7BqJy05uaSD6rTXJOy2kBH50S6LzxSitV28QFBqU_3IaVlvh7DJYsGSc_weajmFpRXkVQAmOt38jnM5k3dZfOE9IfCP_qYkBXx9E-MbTK8W8J1DJIEFPHYViIyinjIIzvzOEdBeUw4K-UMFSY8N-O5Vw',
         Accept: 'application/json'}};
 
@@ -104,7 +136,7 @@ export class PlaylistServiceComponent implements OnInit {
         console.log(response);
        // this.recipeList.push.apply(this.recipeList, response.hits);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err));*/
   }
 
 

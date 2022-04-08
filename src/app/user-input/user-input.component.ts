@@ -33,5 +33,6 @@ export class UserInputComponent implements OnInit {
   SubmitQuery(playlist: string, genre: string) {
     this.submitPlaylistEvent.emit(playlist)
     this.submitGenreEvent.emit(genre)
+    console.log(genre)
   }
 }

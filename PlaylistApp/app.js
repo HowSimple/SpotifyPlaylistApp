@@ -16,20 +16,9 @@ var spotifyApi = new SpotifyWebApi({
   clientSecret: '88a7ab0f48cc472b9972dccf30af1282',
   redirectUri: 'http://localhost:4200/redirect'
 });
-spotifyApi.setAccessToken("BQDseOtspjVcDiNZDcuknyO-9F72HOBh2dLoaJ4rUdbV8gXel8iotGW8zYw03z01aJ3EQcSBDzpwSjtxWilPROW9Vcsfrj3eJXgQu8zf6Xz06w4CefLH44QHZPGdmfKXVEGuKjgciA3DBRfpElFQXZRrTSep73unTfYC2TBnw-51GdjhJY4ZN-2gYD78IXx1WDMMh9Y8cjvqwmJRROkcmwIM")
-
-
-const generateRandomString = (myLength) => {
-  const chars =
-      "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
-  const randomArray = Array.from(
-      { length: myLength },
-      (v, k) => chars[Math.floor(Math.random() * chars.length)]
-  );
-
-  const randomString = randomArray.join("");
-  return randomString;
-};
+spotifyApi.setAccessToken(
+  "BQAOWJROI09HLkyQAzh37TL_oLks9ZTqYBKO21jWa_3C59B5xc2ReyOvGSoKkokWoS4xiqzn14n6H6EExsHJzuS22u2pSwyjTwOKp76rX83KtuNIEpC3FPLXZCLHCYy6Wv2Yd9HBJZn9B__6LYVHKr5G1tT3YstPfmgzH_GUVmzfT6JRbEfYSSRm19duKsU59uhhpw"
+  )
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,59 +52,79 @@ app.get('/token/',  function(req, res) {
   //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Headers", "*");
 
-  res.json(["test"])
+
 });
 app.get('/playlist/',  function(req, res) {
  results =  spotifyApi
-    .getPlaylistTracks('3MBz0XGauQW6cFj9Ze9tAK', {
+    .getPlaylistTracks(req.query.id, {
       offset: 1,
-      limit: 5,
-      fields: 'items(track(name,id,href,album(name,href))) '
+      limit: 10,
+      fields: 'items(track(name,id,href,artists(name),album(name,href))) '
     })
     .then(
       function(data) {
-        //console.log('The playlist contains these tracks', data.body.items);
         let tracks = data.body.items.map(a => a.track.id);
-        console.log(tracks)
+        console.log('The playlist contains these tracks', tracks);
+
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(data.body.items)
       },
       function(err) {
         console.log('Something went wrong!', err);
       }
     );
-
-  res.header("Access-Control-Allow-Origin", "*");
-
-
 });
-/*
-function getPlaylistTrackIds()
-app.get('/merge/',  function(req, res) {
-  var tracks = JSON.parse(req.params.tracks)
-  console.log(tracks)
-  for (var i= 0; i<re )
+app.get('/profile/',  function(req, res) {
+  var currentUser
+  spotifyApi.getMe()
+    .then(function(data) {
+      currentUser = data.body.id
+      console.log('Some information about the authenticated user', data.body);
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    });
 
+
+   // Get a user's playlists
+    spotifyApi.getUserPlaylists(currentUser, {fields: 'id,name,description,href',})
+      .then(function(data) {
+        console.log('Retrieved playlists', data.body);
+      },function(err) {
+        console.log('Something went wrong!', err);
+      });
+});
+
+//function getPlaylistTrackIds()
+app.get('/searchByGenre/',  function(req, res) {
+  playlist = req.query.id
+  genre = req.query.genre
   results =  spotifyApi
-    .addTracksToPlaylist('3MBz0XGauQW6cFj9Ze9tAK', {
+    .getPlaylistTracks(req.query.id, {
       offset: 1,
-      limit: 5,
-      fields: 'items(track(name,href,album(name,href))) '
+      limit: 10,
+      fields: 'items(track(name,id,href,artists(name),album(name,href))),genres'
     })
     .then(
       function(data) {
-        console.log('The playlist contains these tracks', data.body.items);
+        let tracks = data.body.items.map(a => a.track.id);
+        console.log('The playlist contains these tracks', tracks);
+
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(data.body.items)
       },
       function(err) {
         console.log('Something went wrong!', err);
       }
     );
-
-  res.header("Access-Control-Allow-Origin", "*");
-
-
 });
-*/
+
+
+
+
+
+
 app.get('/login', function(req, res) {
 
   var state = generateRandomString(16);
@@ -154,3 +163,19 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+/*
+
+const generateRandomString = (myLength) => {
+  const chars =
+      "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+  const randomArray = Array.from(
+      { length: myLength },
+      (v, k) => chars[Math.floor(Math.random() * chars.length)]
+  );
+
+  const randomString = randomArray.join("");
+  return randomString;
+};
+*/
+
