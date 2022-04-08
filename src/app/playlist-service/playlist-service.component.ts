@@ -52,8 +52,8 @@ export class PlaylistServiceComponent implements OnInit {
   login(){
     //var spotifyAuthRequest = "https://accounts.spotify.com/authorize?"
     var spotifyAuthRequest = "http://localhost:3000/token"
-   document.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${this.redirectAfterAuth}`;
-
+   //document.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${this.redirectAfterAuth}`;
+  this._spotify.getAuth("BQAobpLZeBpUeq0Znn7-1n_m_xIQyy3nOfqMXYrOqwKcol2sunCTyUuCk4CsYm8MjEDq4YV8tzIbk55ktlLhWvy-YyZR1mpCuHzYD_4wixRc8wIaCym8RCSNWT021Gjd-jQMoKngeuf8HjUDPz7R4nePnNJ6SQ").then(r => console.log(r))
 
     //console.log(this.accessToken)
 /*

@@ -1,6 +1,8 @@
 import{Injectable} from "@angular/core";
 import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {map } from "rxjs/operators";
+import axios from "axios";
+
 @Injectable()
 export class spotifyService{
   constructor(private _http: HttpClient){
@@ -12,7 +14,9 @@ export class spotifyService{
   public getClientSecret(){
     return "88a7ab0f48cc472b9972dccf30af1282"
   }
-  getAuth = async () => {
+
+  redirectAfterAuth ='http://localhost:4200/redirect'
+  public getAuth = async (authCode:string) => {
     const options = {method: 'POST', headers: ({
         Authorization: 'Basic ' + btoa(this.getClientID() + ":" + this.getClientSecret()) ,
         'Content-Type': 'application/json'
@@ -31,7 +35,8 @@ export class spotifyService{
       },
       body: JSON.stringify({
         grant_type: 'authorization_code' ,
-        code: btoa(this.getClientID()+":"+this.getClientSecret())
+        code: btoa(this.getClientID()+":"+this.getClientSecret()),
+        redirect_uri: this.redirectAfterAuth
       }),
     })
     console.log(response)

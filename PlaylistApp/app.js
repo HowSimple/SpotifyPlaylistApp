@@ -8,9 +8,16 @@ var logger = require('morgan');
 const querystring = require('querystring');
 var indexRouter = require('./routes/index');
 // for Spotify API authorization
-var client_id = 'da3e944b84d94983be9887955b701b31';
-var redirect_uri = 'http://localhost:3000/redirect';
-var auth_token;
+var SpotifyWebApi = require('spotify-web-api-node');
+
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+  clientId: 'da3e944b84d94983be9887955b701b31',
+  clientSecret: '88a7ab0f48cc472b9972dccf30af1282',
+  redirectUri: 'http://localhost:4200/redirect'
+});
+spotifyApi.setAccessToken("BQDseOtspjVcDiNZDcuknyO-9F72HOBh2dLoaJ4rUdbV8gXel8iotGW8zYw03z01aJ3EQcSBDzpwSjtxWilPROW9Vcsfrj3eJXgQu8zf6Xz06w4CefLH44QHZPGdmfKXVEGuKjgciA3DBRfpElFQXZRrTSep73unTfYC2TBnw-51GdjhJY4ZN-2gYD78IXx1WDMMh9Y8cjvqwmJRROkcmwIM")
+
 
 const generateRandomString = (myLength) => {
   const chars =
@@ -58,7 +65,57 @@ app.get('/token/',  function(req, res) {
 
   res.json(["test"])
 });
+app.get('/playlist/',  function(req, res) {
+ results =  spotifyApi
+    .getPlaylistTracks('3MBz0XGauQW6cFj9Ze9tAK', {
+      offset: 1,
+      limit: 5,
+      fields: 'items(track(name,id,href,album(name,href))) '
+    })
+    .then(
+      function(data) {
+        //console.log('The playlist contains these tracks', data.body.items);
+        let tracks = data.body.items.map(a => a.track.id);
+        console.log(tracks)
+        res.json(data.body.items)
+      },
+      function(err) {
+        console.log('Something went wrong!', err);
+      }
+    );
 
+  res.header("Access-Control-Allow-Origin", "*");
+
+
+});
+/*
+function getPlaylistTrackIds()
+app.get('/merge/',  function(req, res) {
+  var tracks = JSON.parse(req.params.tracks)
+  console.log(tracks)
+  for (var i= 0; i<re )
+
+  results =  spotifyApi
+    .addTracksToPlaylist('3MBz0XGauQW6cFj9Ze9tAK', {
+      offset: 1,
+      limit: 5,
+      fields: 'items(track(name,href,album(name,href))) '
+    })
+    .then(
+      function(data) {
+        console.log('The playlist contains these tracks', data.body.items);
+        res.json(data.body.items)
+      },
+      function(err) {
+        console.log('Something went wrong!', err);
+      }
+    );
+
+  res.header("Access-Control-Allow-Origin", "*");
+
+
+});
+*/
 app.get('/login', function(req, res) {
 
   var state = generateRandomString(16);
@@ -67,9 +124,9 @@ app.get('/login', function(req, res) {
   res.redirect('https://accounts.spotify.com/authorize?' +
       querystring.stringify({
         response_type: 'code',
-        client_id: client_id,
+        client_id: spotifyApi.getClientId(),
         scope: scope,
-        redirect_uri: redirect_uri,
+        redirect_uri: spotifyApi.getRedirectURI(),
         state: state
       }));
 });
