@@ -15,6 +15,8 @@ export class ShowPlaylistComponent implements OnInit {
   //@Input()  response:any;
 
   @Input() songs:any;
+  @Input() genres:any;
+
   //private _spotify:SpotifyService;
   isHidden:boolean = false;
   constructor() {

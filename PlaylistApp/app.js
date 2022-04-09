@@ -17,10 +17,8 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:4200/redirect'
 });
 spotifyApi.setAccessToken(
-  "BQAOWJROI09HLkyQAzh37TL_oLks9ZTqYBKO21jWa_3C59B5xc2ReyOvGSoKkokWoS4xiqzn14n6H6EExsHJzuS22u2pSwyjTwOKp76rX83KtuNIEpC3FPLXZCLHCYy6Wv2Yd9HBJZn9B__6LYVHKr5G1tT3YstPfmgzH_GUVmzfT6JRbEfYSSRm19duKsU59uhhpw"
-  )
-
-// view engine setup
+"BQAgTfU50f5v7U4mf5ik8O0tXUtNZssuEu597s54ybzhng4FMHvhQG4ujbxYcfdKxzOf1TejRbrbk87wWj20nQ8sZp-jmeWt_cNFTRjYJKoR_PuoTRVMe1XeMsUMWZ_5fRw_fqrh_cV-H61kxz1w67iGEHYl1xGqNemYWsgCr8A3qNHp_AjSTHQNJLPM00mvkH7317wPBIcS7IBNZmEVVbAzoBLaA8UrpsI"
+  )// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -55,25 +53,59 @@ app.get('/token/',  function(req, res) {
 
 });
 app.get('/playlist/',  function(req, res) {
- results =  spotifyApi
+  var artists
+  var tracks
+  var artistsIds = []
+  var playlistGenres = new Set()
+  spotifyApi
     .getPlaylistTracks(req.query.id, {
       offset: 1,
       limit: 10,
-      fields: 'items(track(name,id,href,artists(name),album(name,href))) '
+      fields: 'items(track(name,id,href,artists(id),album(name) )) '
     })
     .then(
       function(data) {
-        let tracks = data.body.items.map(a => a.track.id);
-        console.log('The playlist contains these tracks', tracks);
+        artists = data.body.items.map(a => a.track.artists)
+        tracks = data.body.items.map(a => a.track)
+        for  (a in artists)
+          artistsIds.push(artists[a][0].id)
 
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.json(data.body.items)
+
+       // console.log('The playlist contains these artists', artistsIds);
+        spotifyApi.getArtists(artistsIds, )
+          .then(function(data) {
+            // adds all genres to set
+            genres = data.body.artists.map(a => a.genres).flat([1])
+            for  (genre in genres)
+              playlistGenres.add(genres[genre])
+         //   console.log(playlistGenres)
+           // console.log('The playlist contains these genres', playlistGenres);
+           // console.log(playlistGenres)
+            //data.body.items = genr
+            response = {tracks:tracks, genres: Array.from(playlistGenres)}
+            console.log(response)
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            res.json(response)
+
+          }, function(err) {
+            console.error(err);
+          });
+        //artists = artists.map(a=>a.id)
+
       },
       function(err) {
         console.log('Something went wrong!', err);
       }
     );
+ /* // Get multiple artists
+    spotifyApi.getArtists(artistsIds)
+    .then(function(data) {
+      console.log('Artists information', data.body);
+    }, function(err) {
+      console.error(err);
+    });*/
+
 });
 app.get('/profile/',  function(req, res) {
   var currentUser

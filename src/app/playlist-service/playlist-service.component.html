@@ -4,10 +4,12 @@
     <div class="col">
     </div>
     <button (click)="searchPlaylistByGenre('3MBz0XGauQW6cFj9Ze9tAK','indie')" >Login</button>
+    <button (click)="getPlaylistSongs(this.playlist_url)" >Playlist</button>
+
     <button (click)="getPlaylistSongs('3MBz0XGauQW6cFj9Ze9tAK')" >Playlist</button>
     <app-user-input (submitPlaylistEvent)="playlist_url =$event" (submitGenreEvent)="genre=$event"></app-user-input>
     <div>{{playlist_url}}</div>
-    <app-show-playlist [songs]="playlist_songs"> </app-show-playlist>
+    <app-show-playlist [songs]="playlist_songs" [genres]="genre"> </app-show-playlist>
 
     <!--<div *ngIf="playlist_url!=''">
 

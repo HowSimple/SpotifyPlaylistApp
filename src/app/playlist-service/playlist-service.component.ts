@@ -96,8 +96,10 @@ export class PlaylistServiceComponent implements OnInit {
     fetch(request, options)
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-        this.playlist_songs = response;
+
+        this.playlist_songs = response.tracks;
+        this.genre = response.genres;
+        console.log(this.playlist_songs);
         // this.recipeList.push.apply(this.recipeList, response.hits);
       })
       .catch(err => console.error(err));

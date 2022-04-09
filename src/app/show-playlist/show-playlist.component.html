@@ -5,11 +5,23 @@
 
 
 <div *ngIf="isHidden">
-
-  <div class="view-playlist" *ngFor="let song of songs" class="list-group-item clearfix ingredient">
-    <div class = "song">Song: {{song.track.name}} - {{song.track.artists[0].name}}</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg10">
+        <div class="view-playlist" *ngFor="let song of songs" class="list-group-item clearfix ingredient">
+          <div class = "song">Song: {{song.name}} - {{song.artists[0].name}}</div>
+        </div>
+      </div>
+      <div class="col-lg10">
+        <div class="view-playlist" *ngFor="let genre of genres" class="list-group-item clearfix ingredient">
+          <div class = "song">Song: {{genre}} - </div>
+        </div>
+      </div>
+    </div>
   </div>
-
+  <select [(ngModel)]="selected">
+    <option *ngFor="let person of people" [ngValue]="person">{{person.name}}</option>
+  </select>-->
 
 </div>
 
