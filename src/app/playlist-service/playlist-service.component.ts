@@ -19,18 +19,21 @@ export class PlaylistServiceComponent implements OnInit {
   redirectAfterAuth:string;
   playlist_songs: Song[]
   playlist_url:string;
-  genre:string;
+  genres: string[] = [];
+  selectedGenre:string = "";
   authEventHandler($event:any){
     this.accessToken = $event
     console.log(this.accessToken)
   }
-
+  selectGenre(genre:any){
+    this.selectedGenre = genre.target.value
+  }
   constructor(
                 private _spotify: spotifyService,
                private _activatedRoute: ActivatedRoute) {
 
     this.playlist_url = ""
-    this.genre =""
+    console.log(this.genres)
     this.redirectAfterAuth ='http://localhost:4200/redirect';
     this.clientId = 'da3e944b84d94983be9887955b701b31';
     this.accessToken ="AQAvEBSGqZHdmqpm87D5y-1fdO11qUoP02gEcIJkjXC6PSgXvLHdEVCWJj1m5YHjBIm3Av05MsStODE7pesAOp7Dv9YiSxcIvIDChWxYdiUnVNpKruCjHlfJwQ_HqM4HREQFm1brpQV1fakIOCnJwh8ymXtX10aeb0Qr5MWi1pTmz-QE6RlE7HwCuVn5kKA6BHGRCR85KXjsvsewJj6EeMJuqImePMjvaSQwWwgZpgueqgJWd5BRaCJrieei";
@@ -98,8 +101,8 @@ export class PlaylistServiceComponent implements OnInit {
       .then(response => {
 
         this.playlist_songs = response.tracks;
-        this.genre = response.genres;
-        console.log(this.playlist_songs);
+        this.genres = response.genres;
+        //console.log(this.playlist_songs);
         // this.recipeList.push.apply(this.recipeList, response.hits);
       })
       .catch(err => console.error(err));

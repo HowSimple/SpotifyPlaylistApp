@@ -17,7 +17,7 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:4200/redirect'
 });
 spotifyApi.setAccessToken(
-"BQAgTfU50f5v7U4mf5ik8O0tXUtNZssuEu597s54ybzhng4FMHvhQG4ujbxYcfdKxzOf1TejRbrbk87wWj20nQ8sZp-jmeWt_cNFTRjYJKoR_PuoTRVMe1XeMsUMWZ_5fRw_fqrh_cV-H61kxz1w67iGEHYl1xGqNemYWsgCr8A3qNHp_AjSTHQNJLPM00mvkH7317wPBIcS7IBNZmEVVbAzoBLaA8UrpsI"
+"BQDIF4dk1pDrAER9sIXAAGTu2ieslL0q1KpoRlghGNrExYLlNDQFnpts5QMHJRMs141wFeeXGDk_ERn4ozUpXhcoSoH2DuWlKgGyWsLnH8tYudhfIIq2WkYPS1jly1HU8EJTe9G3TzVzrWqlsggWiF5LznzUwZhqpTRrYJ3QUOHGyGzns5QK3tWkznkL5z4gPwz37AKoKRMjY7llzqBnXfykryV0CzwfPRI"
   )// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -27,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', indexRouter);
 /*app.use(function(req,res){
@@ -78,21 +79,13 @@ app.get('/playlist/',  function(req, res) {
             genres = data.body.artists.map(a => a.genres).flat([1])
             for  (genre in genres)
               playlistGenres.add(genres[genre])
-         //   console.log(playlistGenres)
-           // console.log('The playlist contains these genres', playlistGenres);
-           // console.log(playlistGenres)
-            //data.body.items = genr
             response = {tracks:tracks, genres: Array.from(playlistGenres)}
-            console.log(response)
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.json(response)
-
           }, function(err) {
             console.error(err);
           });
-        //artists = artists.map(a=>a.id)
-
       },
       function(err) {
         console.log('Something went wrong!', err);
@@ -130,18 +123,23 @@ app.get('/profile/',  function(req, res) {
 //function getPlaylistTrackIds()
 app.get('/searchByGenre/',  function(req, res) {
   playlist = req.query.id
+  tracks = []
   genre = req.query.genre
+  console.log("playlist ID:",playlist,"genre: ",genre)
+
   results =  spotifyApi
     .getPlaylistTracks(req.query.id, {
       offset: 1,
-      limit: 10,
+      limit: 50,
       fields: 'items(track(name,id,href,artists(name),album(name,href))),genres'
     })
     .then(
       function(data) {
-        let tracks = data.body.items.map(a => a.track.id);
+         tracks = data.body.items.map(a => a.track.id);
         console.log('The playlist contains these tracks', tracks);
-
+        for (track in data.body.items.tracks){
+          
+        }
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(data.body.items)
@@ -150,6 +148,8 @@ app.get('/searchByGenre/',  function(req, res) {
         console.log('Something went wrong!', err);
       }
     );
+
+
 });
 
 

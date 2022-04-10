@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {mock_getPlaylistSongs} from "../mock";
 import {SpotifyService} from "../spotify.service";
 import {async} from "@angular/core/testing";
 import {spotifyService} from "../spotify-service";
 import {Song} from "../playlist-service/playlist-service.component";
+
 
 @Component({
   selector: 'app-show-playlist',
@@ -15,10 +16,11 @@ export class ShowPlaylistComponent implements OnInit {
   //@Input()  response:any;
 
   @Input() songs:any;
-  @Input() genres:any;
+//  @Input() genres:any;
+ // @Output()  selectedGenreEvent = new EventEmitter<string>();
 
-  //private _spotify:SpotifyService;
   isHidden:boolean = false;
+
   constructor() {
 
     /*this.songs = [{name:'Name1',artist:'Artist1'},
