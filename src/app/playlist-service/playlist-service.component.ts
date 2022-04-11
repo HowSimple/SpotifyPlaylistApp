@@ -117,7 +117,12 @@ export class PlaylistServiceComponent implements OnInit {
 
 
   sendEmail() {
-    return this.httpClient.post("http://localhost:3000/save2/", "test");
+    //return this.httpClient.post(, "test");
+    const options = {method: 'GET', headers: {},
+      Accept: 'application/json'};
+    this.httpClient.post<any>("http://localhost:3000/save2/",{ title: 'Angular POST Request Example' },options).subscribe(data => {
+      console.log(data)
+    })
   }
   searchPlaylistByGenre(playlistUrl: string, genre:string){
 

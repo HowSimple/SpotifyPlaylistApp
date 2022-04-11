@@ -1,7 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
 var app = express();
-
+var  cors = require('cors')
+const corsOptions = {
+  origin: true,
+  credentials: true
+}
+app.options('*', cors(corsOptions));
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -17,7 +22,7 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:4200/redirect'
 });
 spotifyApi.setAccessToken(
-"BQCKNfCb21nCkIpOTKtELh51dXB5nR3sFwBENo-Q6zk9LIM471HKRwXo_rItZRpYQYKAiKm52Kwb6XvFLN_BE-YI-dkqwzdyq1djIoUvDDnf7vO-0ZakUGIAuASSJxKaHpvDxYFkjdd6C5rMp-Itew7pIa8_nsdb73xEQ-Aql033jTwQ_8u0HhP5mBbdm_52s2Rq02ljG1LJFzwWhtP95Ts7GX8rS2TNy3Q"
+"BQAtW-YFqxVSNwenrc7iPYIlSOhWZNpTiCINcZm6S4__kcrqUIS8ag8LMNaN4lo7koFUI4romcW8L3-_fxxZrMGWmvQUlGKHXLUAdFRULUqdxrn8jlo1jywWVDf8yrqa57_HZXXDfhFdWIUaAullJVDE8K6cBFYu-iObig5DAb04dA4SlOG6C7zcB_FZH_kV04etDmmQh-qhQdx9PxElRTzT2zJZm-F2FTY"
 )// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -56,6 +61,9 @@ app.get('/token/',  function(req, res) {
 app.post('/save2/',  function(req, res) {
   var name = req.body.name
   console.log(req.body)
+  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "*");
   res.sendStatus(200)
 });
 app.post('/save/',  function(req, res) {
