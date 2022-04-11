@@ -18,6 +18,7 @@ export class PlaylistServiceComponent implements OnInit {
   accessToken:string | null;
   redirectAfterAuth:string;
   playlist_songs: Song[]
+  searchResults!: Song[]
   playlist_url:string;
   genres: string[] = [];
   selectedGenre:string = "";
@@ -102,6 +103,7 @@ export class PlaylistServiceComponent implements OnInit {
 
         this.playlist_songs = response.tracks;
         this.genres = response.genres;
+        console.log(this.genres)
         //console.log(this.playlist_songs);
         // this.recipeList.push.apply(this.recipeList, response.hits);
       })
@@ -113,7 +115,7 @@ export class PlaylistServiceComponent implements OnInit {
   searchPlaylistByGenre(playlistID: string, genre:string){
 
     //this.querySpotifyApi(`/playlists/${playlistID}`)
-    var request = `http://localhost:3000/searchByGenre?id=${playlistID}&genre=${genre}`;
+    var request = `http://localhost:3000/playlist?id=${playlistID}&genre=${genre}`;
     const options = {method: 'GET', headers: {},
       Accept: 'application/json'};
 
@@ -121,7 +123,9 @@ export class PlaylistServiceComponent implements OnInit {
       .then(response => response.json())
       .then(response => {
         console.log(response);
-        this.playlist_songs = response;
+
+        this.searchResults = response.tracks;
+        this.genres = response.genres;
         // this.recipeList.push.apply(this.recipeList, response.hits);
       })
       .catch(err => console.error(err));

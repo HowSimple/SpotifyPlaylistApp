@@ -17,8 +17,8 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:4200/redirect'
 });
 spotifyApi.setAccessToken(
-"BQDIF4dk1pDrAER9sIXAAGTu2ieslL0q1KpoRlghGNrExYLlNDQFnpts5QMHJRMs141wFeeXGDk_ERn4ozUpXhcoSoH2DuWlKgGyWsLnH8tYudhfIIq2WkYPS1jly1HU8EJTe9G3TzVzrWqlsggWiF5LznzUwZhqpTRrYJ3QUOHGyGzns5QK3tWkznkL5z4gPwz37AKoKRMjY7llzqBnXfykryV0CzwfPRI"
-  )// view engine setup
+"BQC8BN-TF1yeAaoRTOU8zoMizhZIL9Uw5u-I5PYJDZ7ATisyfOHxc84ANx1QwpLEiYJK1flC8ADj7p5MtFDkzEoevVysGr2QuImhJuX865W0bZa9Sy1F3hVskJtMUUfaz3A8_MaQHHykJenz4OukpHXVurdePU15PFTqIRWPsqC8o3--G2TQv5nJk7EKee_zx93_k08silTlMMaE7GLzvzozt3RnExFlv1Q"
+)// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -57,7 +57,14 @@ app.get('/playlist/',  function(req, res) {
   var artists
   var tracks
   var artistsIds = []
+  var results = []
+  var resultIds = []
+  var resultPlaylistUrl = ""
   var playlistGenres = new Set()
+  var playlist = req.query.id
+  var searchGenre = req.query.genre
+  console.log("playlist ID:",playlist,"genre: ",searchGenre)
+
   spotifyApi
     .getPlaylistTracks(req.query.id, {
       offset: 1,
@@ -77,9 +84,30 @@ app.get('/playlist/',  function(req, res) {
           .then(function(data) {
             // adds all genres to set
             genres = data.body.artists.map(a => a.genres).flat([1])
-            for  (genre in genres)
+
+            //console.log(genres)
+            for  (genre in genres){
+
               playlistGenres.add(genres[genre])
+              //if (searchGenre==genres[genre])
+
+            }
+            if (searchGenre != null)
+            {
+              for (track in tracks)
+              {
+                //console.log(tracks)
+                if (data.body.artists.map(a => a.genres)[track].includes(searchGenre))
+                {
+                  results.push(tracks[track])
+                  resultIds.push(tracks[track].id)
+                  console.log(resultIds[track])
+                }
+              }
+            }
+            if (searchGenre== null)
             response = {tracks:tracks, genres: Array.from(playlistGenres)}
+            else response = {tracks:results, genres:Array.from(playlistGenres)}
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.json(response)
@@ -123,22 +151,40 @@ app.get('/profile/',  function(req, res) {
 //function getPlaylistTrackIds()
 app.get('/searchByGenre/',  function(req, res) {
   playlist = req.query.id
-  tracks = []
   genre = req.query.genre
   console.log("playlist ID:",playlist,"genre: ",genre)
+  tracks = []
+  artistsIds = []
+  searchResults = []
 
+  playlistGenres = []
   results =  spotifyApi
     .getPlaylistTracks(req.query.id, {
       offset: 1,
-      limit: 50,
+      limit: 5,
       fields: 'items(track(name,id,href,artists(name),album(name,href))),genres'
     })
     .then(
       function(data) {
-         tracks = data.body.items.map(a => a.track.id);
-        console.log('The playlist contains these tracks', tracks);
-        for (track in data.body.items.tracks){
-          
+        artists = data.body.items.map(a => a.track.artists)
+        tracks = data.body.items.map(a => a.track)
+        for  (a in artists)
+          artistsIds.push(artists[a][0].id)
+        spotifyApi.getArtists(artistsIds)
+          .then(function(data) {
+            // adds all genres to set
+            genres = data.body.artists.map(a => a.genres).flat([1])
+            for  (genre in genres)
+              playlistGenres.add(genres[genre])
+            console.log("genres",playlistGenres)
+          }, function(err) {
+            console.error(err);
+          });
+        //console.log('The playlist contains these tracks', tracks);
+        for (t in tracks){
+         // searchResults.add(tracks[track])
+
+          //console.log(tracks[t])
         }
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
