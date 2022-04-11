@@ -9,7 +9,7 @@ const querystring = require('querystring');
 var indexRouter = require('./routes/index');
 // for Spotify API authorization
 var SpotifyWebApi = require('spotify-web-api-node');
-
+//var spotify = require('spotify');
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
   clientId: 'da3e944b84d94983be9887955b701b31',
@@ -17,7 +17,7 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:4200/redirect'
 });
 spotifyApi.setAccessToken(
-"BQC3pf-ow9JvWSZtT2Ywyg_XbDJoC6Yu-afKPUnwSdNFPzSWELy3hk2GUH4dd8RvL2B0mcBp5pwMkdlLVphyw1wxvlRBp6L5o019XpComJmeMWLYMVbvJMZ8rbAuJkl8yX-affKFc0LoihURN9KoDcEfygejCxGInAss_v0r9gcfs6hI_30m45zfe4zcPIJEvGhUZMuXYZwndsxBjOCpohCkcTNCS4Obc3M"
+"BQCKNfCb21nCkIpOTKtELh51dXB5nR3sFwBENo-Q6zk9LIM471HKRwXo_rItZRpYQYKAiKm52Kwb6XvFLN_BE-YI-dkqwzdyq1djIoUvDDnf7vO-0ZakUGIAuASSJxKaHpvDxYFkjdd6C5rMp-Itew7pIa8_nsdb73xEQ-Aql033jTwQ_8u0HhP5mBbdm_52s2Rq02ljG1LJFzwWhtP95Ts7GX8rS2TNy3Q"
 )// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -53,6 +53,11 @@ app.get('/token/',  function(req, res) {
 
 
 });
+app.post('/save2/',  function(req, res) {
+  var name = req.body.name
+  console.log(req.body)
+  res.sendStatus(200)
+});
 app.post('/save/',  function(req, res) {
   var name = req.body.name
   console.log(req.body)
@@ -78,71 +83,50 @@ app.post('/save/',  function(req, res) {
 });
 
 app.get('/playlist/',  function(req, res) {
-  var artists
-  var tracks
-  var artistsIds = []
-  var results = []
-  var resultIds = []
-  var resultPlaylistUrl = ""
-  var playlistGenres = new Set()
   var playlist = req.query.id
-  var searchGenre = req.query.genre
-  console.log("playlist ID:",playlist,"genre: ",searchGenre)
-
   spotifyApi
-    .getPlaylistTracks(req.query.id, {
+    .getPlaylistTracks(playlist, {
       offset: 1,
       limit: 10,
       fields: 'items(track(name,id,href,artists(id),album(name) )) '
     })
-    .then(
-      function(data) {
-        artists = data.body.items.map(a => a.track.artists)
-        tracks = data.body.items.map(a => a.track)
+    .then(function (data){
+        var  tracks = data.body.items.map(a => a.track)
+        var artists = tracks.map(a => a.artists)
+        var artistsIds = []
         for  (a in artists)
           artistsIds.push(artists[a][0].id)
-
-
-       // console.log('The playlist contains these artists', artistsIds);
-        spotifyApi.getArtists(artistsIds, )
-          .then(function(data) {
-            // adds all genres to set
-            genres = data.body.artists.map(a => a.genres).flat([1])
-
-            //console.log(genres)
-            for  (genre in genres){
-
-              playlistGenres.add(genres[genre])
-              //if (searchGenre==genres[genre])
-
-            }
-            if (searchGenre != null)
-            {
-              for (track in tracks)
+      spotifyApi.getArtists(artistsIds)
+        .then(function(data) {
+          var searchGenre = req.query.genre
+          var results = []
+          var resultIds = []
+          genres = data.body.artists.map(a => a.genres).flat([1])
+          var playlistGenres = new Set()
+          for  (genre in genres)
+            playlistGenres.add(genres[genre])
+          if (searchGenre != null)
+            for (track in tracks)
+              if (data.body.artists.map(a => a.genres)[track].includes(searchGenre))
               {
-                //console.log(tracks)
-                if (data.body.artists.map(a => a.genres)[track].includes(searchGenre))
-                {
-                  results.push(tracks[track])
-                  resultIds.push(tracks[track].id)
-                  console.log(resultIds[track])
-                }
+                results.push(tracks[track])
+                resultIds.push(tracks[track].id)
+                console.log(resultIds[track])
               }
-            }
-            if (searchGenre== null)
-            response = {tracks:tracks, genres: Array.from(playlistGenres)}
-            else response = {tracks:results, genres:Array.from(playlistGenres)}
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-            res.json(response)
-          }, function(err) {
-            console.error(err);
-          });
-      },
-      function(err) {
+
+
+          if (searchGenre != null)
+            tracks = results
+           response = {tracks:tracks, genres:Array.from(playlistGenres)}
+          res.header("Access-Control-Allow-Origin", "*");
+          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+          res.json(response)
+        })
+    }, function(err) {
         console.log('Something went wrong!', err);
       }
-    );
+    )
+
  /* // Get multiple artists
     spotifyApi.getArtists(artistsIds)
     .then(function(data) {
