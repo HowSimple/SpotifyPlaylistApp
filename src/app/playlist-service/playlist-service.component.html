@@ -2,8 +2,8 @@
 
   <div class="row">
     <div class="col-lg-5">
-      <app-user-input (submitPlaylistEvent)="playlist_url =$event" ></app-user-input>
-      <button (click)="getPlaylistSongs(this.playlist_url)" >Playlist</button>
+      <app-user-input (submitPlaylistEvent)=" getPlaylistSongs($event)" ></app-user-input>
+
 
 <!--
       <button (click)="getPlaylistSongs('3MBz0XGauQW6cFj9Ze9tAK')" >Playlist</button>
@@ -26,11 +26,11 @@
       </div>
         <div class="col" *ngIf="searchResults != null && searchResults.length > 0">
           <app-show-playlist [songs]="searchResults" > </app-show-playlist>
-        <!--  <button (click)="savePlaylist()">Save this playlist</button>-->
+          <button (click)="savePlaylist()">Save this playlist</button>
         </div>
 
       </div>
-    <div>{{playlist_url}}</div>
+
 
 
 

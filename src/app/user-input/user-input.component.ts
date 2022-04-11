@@ -11,7 +11,7 @@ export class UserInputComponent implements OnInit {
   genre: string = "";
   prompt: string;
   @Output() submitPlaylistEvent = new EventEmitter<string>();
-  @Output() submitGenreEvent = new EventEmitter<string>();
+
   //header: string;
   constructor() {
 
@@ -30,9 +30,9 @@ export class UserInputComponent implements OnInit {
 
   }
 
-  SubmitQuery(playlist: string, genre: string) {
+  SubmitQuery(playlist: string) {
     this.submitPlaylistEvent.emit(playlist)
-    this.submitGenreEvent.emit(genre)
-    console.log(genre)
+
+
   }
 }

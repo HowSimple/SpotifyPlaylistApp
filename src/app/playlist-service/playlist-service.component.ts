@@ -59,41 +59,21 @@ export class PlaylistServiceComponent implements OnInit {
    //document.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${this.redirectAfterAuth}`;
   this._spotify.getAuth("BQAobpLZeBpUeq0Znn7-1n_m_xIQyy3nOfqMXYrOqwKcol2sunCTyUuCk4CsYm8MjEDq4YV8tzIbk55ktlLhWvy-YyZR1mpCuHzYD_4wixRc8wIaCym8RCSNWT021Gjd-jQMoKngeuf8HjUDPz7R4nePnNJ6SQ").then(r => console.log(r))
 
-    //console.log(this.accessToken)
-/*
-
-    const options = {method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-
-      }};
-
-    fetch(spotifyAuthRequest, options)
-      .then(response => response.json())
-      .then(response => {
-        console.log("response"+response);
-
-        //this.recipeList.push.apply(this.recipeList, response.hits);
-      })
-      .catch(err => console.error(err));
-
-
-*/
-
-
-
   }
 
 
-  getUserPlaylists(){
 
-    this.querySpotifyApi("/me/playlists")
+  getPlaylistId(playlistUrl:string){
+    var index = playlistUrl.search("playlist/")
+    console.log(playlistUrl.slice(index+9,index+31))
 
+    return playlistUrl.slice(index+9,index+31)
   }
-  getPlaylistSongs(playlistID: string){
+  getPlaylistSongs(playlistUrl: string){
 
-    //this.querySpotifyApi(`/playlists/${playlistID}`)
-    var request = `http://localhost:3000/playlist?id=${playlistID}`;
+    //this.querySpotifyApi(`/playlists/${playlistUrl}`)
+    this.playlist_url = playlistUrl
+    var request = `http://localhost:3000/playlist?id=${this.getPlaylistId(playlistUrl)}`;
     const options = {method: 'GET', headers: {},
         Accept: 'application/json'};
 
@@ -112,10 +92,29 @@ export class PlaylistServiceComponent implements OnInit {
 
 
   }
-  searchPlaylistByGenre(playlistID: string, genre:string){
+  savePlaylist(){
 
-    //this.querySpotifyApi(`/playlists/${playlistID}`)
-    var request = `http://localhost:3000/playlist?id=${playlistID}&genre=${genre}`;
+  //  var request = `http://localhost:3000/save?name=${"test"}&genre=${}`;
+    var request = `http://localhost:3000/save`;
+    //var trackIds = this.searchResults.map(track => track.id)
+    const options = {method: 'POST', headers: {'contentType':"application/json"},body: JSON.stringify({name: "test",tracks:this.searchResults}),
+     };
+
+    fetch(request, options)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+
+        this.searchResults = response.tracks;
+        this.genres = response.genres;
+        // this.recipeList.push.apply(this.recipeList, response.hits);
+      })
+      .catch(err => console.error(err));
+  }
+  searchPlaylistByGenre(playlistUrl: string, genre:string){
+
+    //this.querySpotifyApi(`/playlists/${playlistUrl}`)
+    var request = `http://localhost:3000/playlist?id=${this.getPlaylistId(playlistUrl)}&genre=${genre}`;
     const options = {method: 'GET', headers: {},
       Accept: 'application/json'};
 
