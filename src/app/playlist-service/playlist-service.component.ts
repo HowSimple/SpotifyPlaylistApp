@@ -3,6 +3,8 @@ import "../mock";
 import { ActivatedRoute } from '@angular/router';
 import {mock_getPlaylistSongs} from "../mock";
 import {spotifyService} from "../spotify-service";
+import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 //import {AuthorizationRequestComponent} from "../authorization-request/authorization-request.component";
 @Component({
   selector: 'app-playlist-service',
@@ -22,7 +24,7 @@ export class PlaylistServiceComponent implements OnInit {
   playlist_url:string;
   genres: string[] = [];
   selectedGenre:string = "";
-  authEventHandler($event:any){
+    authEventHandler($event:any){
     this.accessToken = $event
     console.log(this.accessToken)
   }
@@ -30,7 +32,7 @@ export class PlaylistServiceComponent implements OnInit {
     this.selectedGenre = genre.target.value
   }
   constructor(
-                private _spotify: spotifyService,
+                private httpClient: HttpClient,
                private _activatedRoute: ActivatedRoute) {
 
     this.playlist_url = ""
@@ -57,7 +59,7 @@ export class PlaylistServiceComponent implements OnInit {
     //var spotifyAuthRequest = "https://accounts.spotify.com/authorize?"
     var spotifyAuthRequest = "http://localhost:3000/token"
    //document.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${this.redirectAfterAuth}`;
-  this._spotify.getAuth("BQAobpLZeBpUeq0Znn7-1n_m_xIQyy3nOfqMXYrOqwKcol2sunCTyUuCk4CsYm8MjEDq4YV8tzIbk55ktlLhWvy-YyZR1mpCuHzYD_4wixRc8wIaCym8RCSNWT021Gjd-jQMoKngeuf8HjUDPz7R4nePnNJ6SQ").then(r => console.log(r))
+ // this._spotify.getAuth("BQAobpLZeBpUeq0Znn7-1n_m_xIQyy3nOfqMXYrOqwKcol2sunCTyUuCk4CsYm8MjEDq4YV8tzIbk55ktlLhWvy-YyZR1mpCuHzYD_4wixRc8wIaCym8RCSNWT021Gjd-jQMoKngeuf8HjUDPz7R4nePnNJ6SQ").then(r => console.log(r))
 
   }
 
@@ -95,9 +97,10 @@ export class PlaylistServiceComponent implements OnInit {
   savePlaylist(){
 
   //  var request = `http://localhost:3000/save?name=${"test"}&genre=${}`;
-    var request = `http://localhost:3000/save`;
+    var request = `http://localhost:3000/save2`;
     //var trackIds = this.searchResults.map(track => track.id)
-    const options = {method: 'POST', headers: {'contentType':"application/json"},body: JSON.stringify({name: "test",tracks:this.searchResults}),
+    this.sendEmail()
+    /*const options = {method: 'POST', headers: {'contentType':"application/json"},body: JSON.stringify({name: "test",tracks:this.searchResults}),
      };
 
     fetch(request, options)
@@ -109,7 +112,12 @@ export class PlaylistServiceComponent implements OnInit {
         this.genres = response.genres;
         // this.recipeList.push.apply(this.recipeList, response.hits);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err));*/
+  }
+
+
+  sendEmail() {
+    return this.httpClient.post("http://localhost:3000/save2/", "test");
   }
   searchPlaylistByGenre(playlistUrl: string, genre:string){
 
@@ -132,20 +140,7 @@ export class PlaylistServiceComponent implements OnInit {
 
 
   }
-  querySpotifyApi(query:string){
 
-    /*var request = `https://api.spotify.com/v1/${query}&app_id=7d5182c5&app_key=a0fa0e82fa892fcae09dd4af3f6a2993`;
-    const options = {method: 'GET', headers: {Authorization: 'Bearer:BQCXtU7BqJy05uaSD6rTXJOy2kBH50S6LzxSitV28QFBqU_3IaVlvh7DJYsGSc_weajmFpRXkVQAmOt38jnM5k3dZfOE9IfCP_qYkBXx9E-MbTK8W8J1DJIEFPHYViIyinjIIzvzOEdBeUw4K-UMFSY8N-O5Vw',
-        Accept: 'application/json'}};
-
-    fetch(request, options)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-       // this.recipeList.push.apply(this.recipeList, response.hits);
-      })
-      .catch(err => console.error(err));*/
-  }
 
 
 }
