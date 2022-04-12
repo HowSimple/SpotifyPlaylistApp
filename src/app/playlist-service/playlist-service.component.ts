@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import "../mock";
 import { ActivatedRoute } from '@angular/router';
-import {mock_getPlaylistSongs} from "../mock";
-import {spotifyService} from "../spotify-service";
-import {Observable} from "rxjs";
+
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 //import {AuthorizationRequestComponent} from "../authorization-request/authorization-request.component";
 @Component({
@@ -12,9 +9,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
   styleUrls: ['./playlist-service.component.css']
 })
 export class PlaylistServiceComponent implements OnInit {
-
-  // prompt: string;
-  // header: string;
 
 
   playlist_songs!: Song[]

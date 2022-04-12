@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {spotifyService} from "./spotify-service";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +7,7 @@ import {spotifyService} from "./spotify-service";
 })
 export class AppComponent {
   title = 'playlist-app';
-  constructor(private _spotify:spotifyService) {
+  constructor() {
   }
   onChange($event:any)
   {

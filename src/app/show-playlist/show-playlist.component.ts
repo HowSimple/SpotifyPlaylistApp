@@ -1,8 +1,4 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {mock_getPlaylistSongs} from "../mock";
-import {SpotifyService} from "../spotify.service";
-import {async} from "@angular/core/testing";
-import {spotifyService} from "../spotify-service";
 import {Song} from "../playlist-service/playlist-service.component";
 
 
