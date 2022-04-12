@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'playlist-app';
+  constructor() {
+  }
+  onChange($event:any)
+  {
+    console.log('TEST'+$event.authorizationToken)
 
+  }
 }

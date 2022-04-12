@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import "../mock";
-import {mock_getPlaylistSongs} from "../mock";
+import { ActivatedRoute } from '@angular/router';
+
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+//import {AuthorizationRequestComponent} from "../authorization-request/authorization-request.component";
 @Component({
   selector: 'app-playlist-service',
   templateUrl: './playlist-service.component.html',
@@ -8,55 +10,65 @@ import {mock_getPlaylistSongs} from "../mock";
 })
 export class PlaylistServiceComponent implements OnInit {
 
-  // prompt: string;
-  // header: string;
 
-  playlist_songs: Song[]
-  playlist_url:string;
-  genre:string;
-  constructor() {
-   // this.header = "Search your playlist"
-    //this.prompt = "Enter your playlist"
-    this.playlist_url = ""
-    this.genre =""
-    this.playlist_songs = [{name:'Name1',artist:'Artist1'},
-      {name:'Name2',artist:'Artist2'},{name:'Name3',artist:'Artist3'}]
+  playlist_songs!: Song[]
+  searchResults!: any
+  playlist_url:string="";
+  genres: string[] = [];
+  selectedGenre:string = "";
+  selectGenre(genre:any){
+    this.selectedGenre = genre.target.value
+  }
+  constructor(
+                private httpClient: HttpClient,
+               private _activatedRoute: ActivatedRoute) {
 
-    //mock_getPlaylistSongs()
-
-    //this.getPlaylistSongs("10b4AJidmIHekntNpPo3R1")}
   }
   ngOnInit(): void {
-
   }
-
-
-  getUserPlaylists(){
-
-    this.querySpotifyApi("/me/playlists")
-
+  getPlaylistId(playlistUrl:string){
+    var index = playlistUrl.search("playlist/")
+    console.log(playlistUrl.slice(index+9,index+31))
+    return playlistUrl.slice(index+9,index+31)
   }
-  getPlaylistSongs(playlistID: string){
-
-    this.querySpotifyApi(`/playlists/${playlistID}`)
-
-
-  }
-  querySpotifyApi(query:string){
-
-    var request = `https://api.spotify.com/v1/${query}&app_id=7d5182c5&app_key=a0fa0e82fa892fcae09dd4af3f6a2993`;
-    const options = {method: 'GET', headers: {Accept: 'application/json'}};
+  getPlaylistSongs(playlistUrl: string){
+    this.playlist_url = playlistUrl
+    var request = `http://localhost:3000/playlist?id=${this.getPlaylistId(playlistUrl)}`;
+    const options = {method: 'GET', headers: {},
+        Accept: 'application/json'};
 
     fetch(request, options)
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-       // this.recipeList.push.apply(this.recipeList, response.hits);
+
+        this.playlist_songs = response.tracks;
+        this.genres = response.genres;
       })
       .catch(err => console.error(err));
   }
+  savePlaylist(title:string,playlistTracks:any,){
+    var trackIds = playlistTracks.map(function(a:any) {return a.uri;});
+    const options = {method: 'GET', headers: {},
+      Accept: 'application/json'};
+    this.httpClient.post<any>("http://localhost:3000/save/",{ name: title , tracks: trackIds},options).subscribe(data => {
+      console.log(data)
+    })
+  }
 
+  searchPlaylistByGenre(playlistUrl: string, genre:string){
+      var request = `http://localhost:3000/playlist?id=${this.getPlaylistId(playlistUrl)}&genre=${genre}`;
+    const options = {method: 'GET', headers: {},
+      Accept: 'application/json'};
+    fetch(request, options)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
 
+        this.searchResults = response.tracks;
+        this.genres = response.genres;
+      })
+      .catch(err => console.error(err));
+  }
 }
 export interface Song {
   name:string;
