@@ -8,18 +8,18 @@
       <div class="col-lg-5" *ngIf="genres.length > 0">
         <select #genre (change)="selectGenre($event)" >
           <option value="default" >Select a genre</option>
-
-          <option *ngFor="let genre of genres" #genre [value]="genre"  >
-            {{genre}}
-          </option>
+          <option *ngFor="let genre of genres" #genre [value]="genre"  >{{genre}} </option>
         </select>
         <button class="genre" (click)="searchPlaylistByGenre(this.playlist_url,this.selectedGenre)">Search</button>
         <button *ngIf="searchResults != null && searchResults.length > 0" (click)="savePlaylist('test', this.searchResults)">Save this playlist to your account</button>
 
       </div>
-      <div class="row"> <div class="col" *ngIf="genres.length > 0">
+      <div class="row">
+        <!--Hide until user enters a playlist-->
+        <div class="col" *ngIf="genres.length > 0">
         <app-show-playlist [songs]="playlist_songs" > </app-show-playlist>
       </div>
+        <!--Hide until user has search results to view-->
         <div class="col" *ngIf="searchResults != null && searchResults.length > 0">
           <app-show-playlist [songs]="searchResults" > </app-show-playlist>
         </div>
