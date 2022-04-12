@@ -1,13 +1,7 @@
-<!--<button (click)="toggleVisibility()">Expand songs</button>-->
-<!--
-<button (click)="querySpotifyApi('playlists/10b4AJidmIHekntNpPo3R1')">Test</button>
--->
-
-
 <div *ngIf="!isHidden">
   <div class="container">
     <div class="row" >
-      <div class="col-lg10">
+      <div class="col-lg-2">
         <div class="view-playlist" *ngFor="let song of songs" class="list-group-item clearfix ingredient">
           <div class = "song">Song: {{song.name}} - {{song.artists[0].name}}</div>
         </div>
@@ -15,17 +9,5 @@
 
     </div>
   </div>
-  <!--<div class="col-lg10">
-    <div class="view-playlist" *ngFor="let genre of genres" class="list-group-item clearfix ingredient">
-      <div class = "song">Song: {{genre}} - </div>
-    </div>
-  </div>
- -->
+
 </div>
-
-
-
-
-  <!--<div class="ingredient-show" *ngFor="let song of song_list" class="list-group-item clearfix ingredient">{{ song}}</div>
--->
-

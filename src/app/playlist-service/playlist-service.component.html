@@ -3,46 +3,26 @@
   <div class="row">
     <div class="col-lg-5">
       <app-user-input (submitPlaylistEvent)=" getPlaylistSongs($event)" ></app-user-input>
-      <button (click)="sendEmail()"></button>
-
-<!--
-      <button (click)="getPlaylistSongs('3MBz0XGauQW6cFj9Ze9tAK')" >Playlist</button>
--->
-
     </div>
 
       <div class="col-lg-5" *ngIf="genres.length > 0">
         <select #genre (change)="selectGenre($event)" >
-          <option value="default">Select a genre</option>
+          <option value="default" >Select a genre</option>
 
           <option *ngFor="let genre of genres" #genre [value]="genre"  >
             {{genre}}
           </option>
         </select>
-        <button (click)="searchPlaylistByGenre(this.playlist_url,this.selectedGenre)">Search</button>
-    </div>
+        <button class="genre" (click)="searchPlaylistByGenre(this.playlist_url,this.selectedGenre)">Search</button>
+        <button *ngIf="searchResults != null && searchResults.length > 0" (click)="savePlaylist('test', this.searchResults)">Save this playlist to your account</button>
+
+      </div>
       <div class="row"> <div class="col" *ngIf="genres.length > 0">
         <app-show-playlist [songs]="playlist_songs" > </app-show-playlist>
       </div>
         <div class="col" *ngIf="searchResults != null && searchResults.length > 0">
           <app-show-playlist [songs]="searchResults" > </app-show-playlist>
-          <button (click)="savePlaylist()">Save this playlist</button>
         </div>
-
       </div>
-
-
-
-
-
-
-
-
-    <!--<div *ngIf="playlist_url!=''">
-
-    </div>
--->
-
   </div>
-
 </div>
