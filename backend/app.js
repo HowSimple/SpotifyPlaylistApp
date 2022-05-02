@@ -22,7 +22,7 @@ var spotifyApi = new SpotifyWebApi({
   clientSecret: config.get("Spotify.clientSecret"),
   redirectUri: config.get("Spotify.redirectAddress")
 });
-// PUT YOUR TOKEN HERE BEFORE RUNNING
+
 spotifyApi.setAccessToken(config.get("Spotify.accessToken")
   )// view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,7 +61,7 @@ app.get('/playlist/',  function(req, res) {
     .getPlaylistTracks(playlist, {
       offset: 1,
       limit: 10,
-      fields: 'items(track(name,id,href,uri,artists(id),album(name) )) '
+      fields: 'items(track(name,id,href,uri,artists(id, name),album(name) )) '
     })
     .then(function (data){
         var  tracks = data.body.items.map(a => a.track)
