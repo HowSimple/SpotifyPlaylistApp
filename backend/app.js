@@ -12,16 +12,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const querystring = require('querystring');
 var indexRouter = require('./routes/index');
+const config = require('config');
+
 // for Spotify API authorization
+
 var SpotifyWebApi = require('spotify-web-api-node');
 var spotifyApi = new SpotifyWebApi({
-  clientId: 'da3e944b84d94983be9887955b701b31',
-  clientSecret: '88a7ab0f48cc472b9972dccf30af1282',
-  redirectUri: 'http://localhost:4200/redirect'
+  clientId: config.get("Spotify.clientId"),
+  clientSecret: config.get("Spotify.clientSecret"),
+  redirectUri: config.get("Spotify.redirectAddress")
 });
 // PUT YOUR TOKEN HERE BEFORE RUNNING
-spotifyApi.setAccessToken(
-"BQBfBZCC3CcOGu8BoTrR3X0F2yfVKtQRI7i8nzPoR8AIkn4wghgc8d8mqrq7eTErB6-50TpOfxd7JnL3N1gJ4DPduRLyXdGI6K82kPmYSkt0vHlPQprGzZD_pfzID3AXHR5X1wsaj3ecw7CWPsyWeIUliUkxZpBykjtSe38lzsQrOpfJIxABLS5LgWf3S8pPZ8i3pqIpdNVLYHnd4tuz29BWifOwAI9NQUU"
+spotifyApi.setAccessToken(config.get("Spotify.accessToken")
   )// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

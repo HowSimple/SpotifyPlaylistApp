@@ -1,0 +1,9 @@
+{
+  "Spotify": {
+    "accessToken": "ENTER YOUR ACCESS TOKEN HERE",
+
+    "clientId": "da3e944b84d94983be9887955b701b31",
+    "clientSecret": "88a7ab0f48cc472b9972dccf30af1282",
+    "redirectAddress": "http://localhost:4200/redirect"
+  }
+}
