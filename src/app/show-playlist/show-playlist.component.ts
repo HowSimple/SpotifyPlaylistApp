@@ -19,29 +19,11 @@ export class ShowPlaylistComponent implements OnInit {
 
   constructor() {
 
-    /*this.songs = [{name:'Name1',artist:'Artist1'},
-      {name:'Name2',artist:'Artist2'},{name:'Name3',artist:'Artist3'}]
-    *///spotify.getPlaylistSongs()
-    //this.song_list.push(mock_getPlaylistSongs());
-    //this.getPlaylistSongs('10b4AJidmIHekntNpPo3R1')
-
-
-    //mock_response = JSON.parse(mock_response)
-    //this.getQuery("test")
-    //this.song_list =mock_getPlaylistSongs()
-
-    //console.log("TEST",this.song_list)
     }
    ngOnInit() {
-    //this.tracks= this.querySpotifyApi('playlists/10b4AJidmIHekntNpPo3R1').subscribe()
-    // this.querySpotifyApi("playlists/10b4AJidmIHekntNpPo3R1")
 
-   // console.log( this.tracks)
-
-
-      //@Input() list:any;
   }
-
+/*
   async querySpotifyApi(query:string) {
     const url: string = `https://api.spotify.com/v1/${query}/tracks`;
     const token: string = "BQAcY01Yc-ROUCGlWspt6cSJwMWkfdZw7vrMrY2JlLkPJcMiJHKbX0pIAA28Qf5LaJf7wX5ltXLuFBwhMyRHXFd2EbYkYTwF1xE3Anxe0Sk83WHwiFPIQY4Wn7z6Qo1971B3N1c_XBQ97R33aN-S4wqjdHlCJA"
@@ -65,7 +47,7 @@ export class ShowPlaylistComponent implements OnInit {
           }
         ));
       });
-  }
+  }*/
   toggleVisibility() {
     if (this.isHidden == false)
       this.isHidden = true;
